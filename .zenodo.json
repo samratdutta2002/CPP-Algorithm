@@ -1,0 +1,15 @@
+{
+  "title": "A Fast and Robust Coverage Path Planner for Irregular Polygonal Fields with Rotation-Optimised Decomposition",
+  "upload_type": "software",
+  "description": "Java implementation of a coverage path planner for irregular polygonal fields (rotation-optimised horizontal visibility subdivision), together with the 299 field polygons derived from Fields2Benchmark, the comparison results with Fields2Cover and the analysis scripts of the accompanying manuscript.",
+  "creators": [
+    {"name": "Dutta, Samrat"},
+    {"name": "Roy, Soumen"},
+    {"name": "Pal, Rajat Kumar"}
+  ],
+  "license": "MIT",
+  "keywords": ["coverage path planning", "agricultural robotics", "polygon decomposition"],
+  "related_identifiers": [
+    {"relation": "isDerivedFrom", "identifier": "10.5281/zenodo.14524735", "scheme": "doi"}
+  ]
+}

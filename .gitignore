@@ -1,0 +1,16 @@
+# build output and local files
+out/
+out-gui/
+*.class
+lib/*.jar
+.DS_Store
+__pycache__/
+.idea/
+*.iml
+# generated outputs
+*.xlsx
+HeatMaps/
+results/*.log
+results/numbers.json
+results_run.out
+figures/

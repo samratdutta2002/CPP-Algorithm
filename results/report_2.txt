@@ -1,0 +1,229 @@
+====================================================================================================
+JAVA CPP PIPELINE vs. FIELDS2COVER -- STATISTICAL COMPARISON REPORT
+====================================================================================================
+Generated: 2026-10-18T09:51:52
+Source file: results/compare_all_second.csv (aligned layout)
+Tie tolerance: 0.5 percentage points (percentage metrics), 2.0% relative (scale metrics)
+Significance threshold (alpha): 0.05
+
+----------------------------------------------------------------------------------------------------
+1. DATASET OVERVIEW
+----------------------------------------------------------------------------------------------------
+Total (polygon, robot_width, configuration) rows where BOTH Proposed and Fields2Cover succeeded: 15758
+Distinct polygons represented: 299
+Robot widths tested: [2.0, 4.0, 8.0, 12.0, 18.0, 24.0]
+Fields2Cover configurations (decomposition x objective x route planner), 9 total:
+    - al__boustrophedon__Fixed0__ortools  (n=1794)
+    - al__boustrophedon__NSwath__ortools  (n=1771)
+    - al__boustrophedon__SwathLength__ortools  (n=1782)
+    - al__none__Fixed0__snake  (n=1732)
+    - al__none__NSwath__snake  (n=1706)
+    - al__none__SwathLength__snake  (n=1718)
+    - al__trapezoidal__Fixed0__ortools  (n=1713)
+    - al__trapezoidal__NSwath__ortools  (n=1782)
+    - al__trapezoidal__SwathLength__ortools  (n=1760)
+
+Rows where the robot width caused the field to split into multiple disjoint pieces after the inward safety offset (both Proposed and F2C agree on which rows these are, 367 rows exactly matching on both sides): 367 (2.3%)
+These are analyzed SEPARATELY (Section 4) since, per project convention, a comparison where one or both methods only covers the largest surviving piece is not a fair head-to-head of path-planning quality. The main comparison (Sections 2-3) uses the remaining 15391 rows (97.7%).
+
+----------------------------------------------------------------------------------------------------
+2. OVERALL RESULTS (split-polygon rows excluded, n=15391)
+----------------------------------------------------------------------------------------------------
+Metric                      Proposed mean    F2C meanProposed win%    Tie%  F2C win%   Wilcoxon p  effect r   effect size
+----------------------------------------------------------------------------------------------------------------------
+Coverage (%)                      99.586      97.582      44.6%   55.3%      0.1%      <0.0001    -0.804         large
+Outside-swept (%)                  0.022       0.223       9.3%   89.8%      0.9%      <0.0001    -0.639         large
+Redundancy (%)                    22.597      21.083      24.8%   15.5%     59.7%      <0.0001    -0.370        medium
+Excess-swept (%)                  29.770      34.940      60.3%    5.7%     34.0%      <0.0001    -0.296         small
+Coverage per unit length           6.901       6.461      54.4%   16.5%     29.1%      <0.0001    -0.249         small
+Runtime (s)                        0.002       3.317      95.8%    0.2%      4.0%      <0.0001    -0.860         large
+Path length                     7101.501    8382.123      49.8%   17.0%     33.2%      <0.0001    -0.258         small
+Total turning angle (deg)       9206.708   18672.071      41.2%    9.2%     49.6%      <0.0001    -0.080    negligible
+Turn count                        93.657     192.292      43.3%   10.2%     46.5%      <0.0001    -0.137         small
+Waypoint count                   155.521     396.914      58.9%    2.1%     39.0%      <0.0001    -0.359        medium
+
+Interpretation notes:
+  - 'Proposed win%' / 'F2C win%' / 'Tie%' use the tie tolerance above; they sum to 100% per row.
+  - Wilcoxon p-value tests whether the paired differences (Proposed - F2C) are symmetric around zero across all rows; a small p-value means the direction of the typical difference is unlikely to be due to chance.
+  - effect r is the matched-pairs rank-biserial correlation (range -1..1); positive means Java's values were typically ranked higher, negative means F2C's were. Its sign must be read together with each metric's 'better' direction (e.g. for Runtime, lower is better, so a NEGATIVE r here means Proposed runtimes were typically lower/better).
+
+Detailed medians and Wilcoxon statistics:
+  * Coverage (%): median Proposed=99.897, median F2C=99.213, median(Proposed-F2C)=0.215, W=2262179.0, z=-85.18, p=<0.0001, n=11228/15391 non-tied pairs
+  * Outside-swept (%): median Proposed=0.000, median F2C=0.000, median(Proposed-F2C)=0.000, W=1889045.0, z=-46.84, p=<0.0001, n=5370/15391 non-tied pairs
+  * Redundancy (%): median Proposed=22.303, median F2C=21.067, median(Proposed-F2C)=1.147, W=33949610.5, z=-45.85, p=<0.0001, n=15391/15391 non-tied pairs
+  * Excess-swept (%): median Proposed=28.746, median F2C=32.663, median(Proposed-F2C)=-2.151, W=39002611.5, z=-36.69, p=<0.0001, n=15391/15391 non-tied pairs
+  * Coverage per unit length: median Proposed=6.296, median F2C=5.756, median(Proposed-F2C)=0.100, W=42229770.0, z=-30.83, p=<0.0001, n=15391/15391 non-tied pairs
+  * Runtime (s): median Proposed=0.001, median F2C=0.312, median(Proposed-F2C)=-0.311, W=446215.0, z=-106.63, p=<0.0001, n=15390/15391 non-tied pairs
+  * Path length: median Proposed=3779.440, median F2C=4145.280, median(Proposed-F2C)=-92.247, W=41568363.0, z=-32.03, p=<0.0001, n=15391/15391 non-tied pairs
+  * Total turning angle (deg): median Proposed=5584.512, median F2C=6720.862, median(Proposed-F2C)=109.937, W=53770497.0, z=-9.89, p=<0.0001, n=15391/15391 non-tied pairs
+  * Turn count: median Proposed=55.000, median F2C=69.000, median(Proposed-F2C)=1.000, W=46131081.5, z=-16.62, p=<0.0001, n=14801/15391 non-tied pairs
+  * Waypoint count: median Proposed=104.000, median F2C=135.000, median(Proposed-F2C)=-14.000, W=34171707.5, z=-44.41, p=<0.0001, n=15283/15391 non-tied pairs
+
+----------------------------------------------------------------------------------------------------
+3. STRATIFIED RESULTS (split-polygon rows excluded)
+----------------------------------------------------------------------------------------------------
+3a. By robot width
+------------------------------------------------------------
+  Coverage (%):
+    width=    2  n= 2630  Proposed win= 34.3%  tie= 65.7%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.823
+    width=    4  n= 2672  Proposed win= 41.7%  tie= 58.2%  F2C win=  0.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.810
+    width=    8  n= 2630  Proposed win= 48.2%  tie= 51.7%  F2C win=  0.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.800
+    width=   12  n= 2565  Proposed win= 49.7%  tie= 50.2%  F2C win=  0.2%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.799
+    width=   18  n= 2516  Proposed win= 48.3%  tie= 51.6%  F2C win=  0.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.804
+    width=   24  n= 2378  Proposed win= 45.8%  tie= 54.1%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.803
+  Outside-swept (%):
+    width=    2  n= 2630  Proposed win=  9.3%  tie= 90.3%  F2C win=  0.4%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.720
+    width=    4  n= 2672  Proposed win= 10.0%  tie= 89.1%  F2C win=  0.9%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.672
+    width=    8  n= 2630  Proposed win= 10.4%  tie= 88.6%  F2C win=  1.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.641
+    width=   12  n= 2565  Proposed win=  9.4%  tie= 89.7%  F2C win=  0.9%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.620
+    width=   18  n= 2516  Proposed win=  8.8%  tie= 89.8%  F2C win=  1.4%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.571
+    width=   24  n= 2378  Proposed win=  7.5%  tie= 91.8%  F2C win=  0.7%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.593
+  Redundancy (%):
+    width=    2  n= 2630  Proposed win= 38.9%  tie= 33.5%  F2C win= 27.6%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.217
+    width=    4  n= 2672  Proposed win= 33.9%  tie= 21.9%  F2C win= 44.2%  p=0.3103  q(FDR)=0.3103   effect r=-0.020
+    width=    8  n= 2630  Proposed win= 24.9%  tie= 13.0%  F2C win= 62.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.385
+    width=   12  n= 2565  Proposed win= 18.2%  tie= 10.3%  F2C win= 71.5%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.557
+    width=   18  n= 2516  Proposed win= 17.1%  tie=  6.8%  F2C win= 76.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.626
+    width=   24  n= 2378  Proposed win= 14.2%  tie=  5.8%  F2C win= 80.0%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.693
+  Runtime (s):
+    width=    2  n= 2630  Proposed win= 98.8%  tie=  0.0%  F2C win=  1.2%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.862
+    width=    4  n= 2672  Proposed win= 99.4%  tie=  0.1%  F2C win=  0.5%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.865
+    width=    8  n= 2630  Proposed win= 97.6%  tie=  0.2%  F2C win=  2.2%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.863
+    width=   12  n= 2565  Proposed win= 94.7%  tie=  0.3%  F2C win=  5.0%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.858
+    width=   18  n= 2516  Proposed win= 92.6%  tie=  0.2%  F2C win=  7.2%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.852
+    width=   24  n= 2378  Proposed win= 91.1%  tie=  0.3%  F2C win=  8.6%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.848
+  Path length:
+    width=    2  n= 2630  Proposed win= 51.0%  tie= 36.3%  F2C win= 12.7%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.536
+    width=    4  n= 2672  Proposed win= 55.0%  tie= 22.8%  F2C win= 22.2%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.409
+    width=    8  n= 2630  Proposed win= 52.9%  tie= 14.5%  F2C win= 32.6%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.260
+    width=   12  n= 2565  Proposed win= 49.3%  tie= 11.0%  F2C win= 39.7%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.164
+    width=   18  n= 2516  Proposed win= 46.3%  tie=  7.9%  F2C win= 45.7%  p=0.0033  q(FDR)=0.0036*  effect r=-0.059
+    width=   24  n= 2378  Proposed win= 43.5%  tie=  7.7%  F2C win= 48.7%  p=0.2785  q(FDR)=0.2865   effect r=-0.022
+  Total turning angle (deg):
+    width=    2  n= 2630  Proposed win= 38.7%  tie= 20.5%  F2C win= 40.7%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.131
+    width=    4  n= 2672  Proposed win= 40.8%  tie= 12.5%  F2C win= 46.7%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.110
+    width=    8  n= 2630  Proposed win= 42.4%  tie=  7.5%  F2C win= 50.1%  p=<0.0001  q(FDR)=<0.0001*  effect r=-0.093
+    width=   12  n= 2565  Proposed win= 41.2%  tie=  5.7%  F2C win= 53.1%  p=0.0019  q(FDR)=0.0022*  effect r=-0.061
+    width=   18  n= 2516  Proposed win= 41.5%  tie=  4.3%  F2C win= 54.2%  p=0.0331  q(FDR)=0.0350*  effect r=-0.042
+    width=   24  n= 2378  Proposed win= 42.9%  tie=  3.6%  F2C win= 53.5%  p=0.0028  q(FDR)=0.0032*  effect r=-0.061
+  (* = significant at alpha=0.05 after Benjamini-Hochberg FDR correction within this table)
+
+3b. By Fields2Cover configuration
+------------------------------------------------------------
+  Coverage (%):
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win= 40.5%  tie= 59.4%  F2C win=  0.1%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win= 57.6%  tie= 42.4%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win= 52.2%  tie= 47.8%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win=  0.0%  tie= 99.5%  F2C win=  0.5%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__NSwath__snake                    n= 1706  Proposed win=  0.0%  tie=100.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win=  0.0%  tie=100.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win= 93.5%  tie=  6.5%  F2C win=  0.1%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win= 81.3%  tie= 18.7%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win= 78.5%  tie= 21.5%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+  Outside-swept (%):
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win=  0.1%  tie= 99.5%  F2C win=  0.3%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win=  0.1%  tie= 98.9%  F2C win=  0.9%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win=  0.1%  tie= 99.0%  F2C win=  1.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win= 25.9%  tie= 74.1%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__NSwath__snake                    n= 1706  Proposed win= 29.1%  tie= 69.3%  F2C win=  1.6%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win= 27.4%  tie= 70.9%  F2C win=  1.7%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win=  0.4%  tie= 99.3%  F2C win=  0.3%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win=  0.0%  tie= 99.0%  F2C win=  1.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win=  0.0%  tie= 99.0%  F2C win=  1.0%  p=<0.0001  q(FDR)=<0.0001*
+  Redundancy (%):
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win=  5.9%  tie=  9.9%  F2C win= 84.2%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win= 14.9%  tie= 14.2%  F2C win= 70.9%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win= 18.9%  tie= 11.9%  F2C win= 69.2%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win= 18.0%  tie= 30.3%  F2C win= 51.7%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__NSwath__snake                    n= 1706  Proposed win= 15.4%  tie= 21.5%  F2C win= 63.2%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win= 22.4%  tie= 20.2%  F2C win= 57.5%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win= 31.9%  tie= 17.6%  F2C win= 50.5%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win= 46.6%  tie=  8.1%  F2C win= 45.3%  p=0.0064  q(FDR)=0.0067*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win= 50.0%  tie=  5.6%  F2C win= 44.4%  p=0.0696  q(FDR)=0.0696 
+  Runtime (s):
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win= 62.8%  tie=  1.5%  F2C win= 35.7%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__NSwath__snake                    n= 1706  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win=100.0%  tie=  0.0%  F2C win=  0.0%  p=<0.0001  q(FDR)=<0.0001*
+  Path length:
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win= 41.9%  tie= 18.1%  F2C win= 40.0%  p=0.0021  q(FDR)=0.0023*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win= 44.9%  tie= 20.8%  F2C win= 34.3%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win= 47.6%  tie= 19.1%  F2C win= 33.3%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win= 42.1%  tie= 18.8%  F2C win= 39.1%  p=0.0615  q(FDR)=0.0639 
+    al__none__NSwath__snake                    n= 1706  Proposed win= 19.3%  tie= 28.1%  F2C win= 52.6%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win= 27.6%  tie= 26.4%  F2C win= 45.9%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win= 30.1%  tie= 18.8%  F2C win= 51.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win= 96.6%  tie=  1.8%  F2C win=  1.6%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win= 97.8%  tie=  0.7%  F2C win=  1.5%  p=<0.0001  q(FDR)=<0.0001*
+  Total turning angle (deg):
+    al__boustrophedon__Fixed0__ortools         n= 1732  Proposed win= 31.6%  tie= 23.3%  F2C win= 45.1%  p=<0.0001  q(FDR)=<0.0001*
+    al__boustrophedon__NSwath__ortools         n= 1709  Proposed win= 40.6%  tie= 10.7%  F2C win= 48.7%  p=0.0653  q(FDR)=0.0665 
+    al__boustrophedon__SwathLength__ortools    n= 1720  Proposed win= 62.6%  tie=  6.4%  F2C win= 31.0%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__Fixed0__snake                    n= 1732  Proposed win=  1.6%  tie= 14.1%  F2C win= 84.2%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__NSwath__snake                    n= 1706  Proposed win=  0.2%  tie=  3.3%  F2C win= 96.4%  p=<0.0001  q(FDR)=<0.0001*
+    al__none__SwathLength__snake               n= 1718  Proposed win= 15.3%  tie=  4.5%  F2C win= 80.3%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__Fixed0__ortools           n= 1656  Proposed win= 20.5%  tie= 19.9%  F2C win= 59.6%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__NSwath__ortools           n= 1720  Proposed win= 98.8%  tie=  0.3%  F2C win=  0.9%  p=<0.0001  q(FDR)=<0.0001*
+    al__trapezoidal__SwathLength__ortools      n= 1698  Proposed win= 99.7%  tie=  0.1%  F2C win=  0.2%  p=<0.0001  q(FDR)=<0.0001*
+  (* = significant at alpha=0.05 after Benjamini-Hochberg FDR correction within this table)
+
+----------------------------------------------------------------------------------------------------
+4. SPLIT-POLYGON SUBSET (n=367, reported separately, NOT a fair head-to-head)
+----------------------------------------------------------------------------------------------------
+Metric                      Proposed mean    F2C meanProposed win%    Tie%  F2C win%
+Coverage (%)                      73.271      94.714      12.3%    6.3%     81.5%
+Outside-swept (%)                  0.768       3.506      67.6%   28.3%      4.1%
+Redundancy (%)                    30.610      28.119      26.4%    5.7%     67.8%
+Excess-swept (%)                  49.691      49.631      46.9%    3.3%     49.9%
+Coverage per unit length           7.662       7.469      52.3%    9.3%     38.4%
+Runtime (s)                        0.003       2.610     100.0%    0.0%      0.0%
+Path length                     3116.462    4543.552      77.7%    6.0%     16.3%
+Total turning angle (deg)       6142.086   15408.863      78.2%    5.2%     16.6%
+Turn count                        62.869     160.395      82.6%    4.4%     13.1%
+Waypoint count                   121.095     301.760      86.1%    1.9%     12.0%
+
+Piece-count distribution among split rows: {2: 309, 3: 46, 4: 12}
+
+----------------------------------------------------------------------------------------------------
+5. PER-POLYGON AGGREGATED ROBUSTNESS CHECK
+----------------------------------------------------------------------------------------------------
+The 15391 rows above are not independent observations -- each polygon contributes up to 54 correlated rows. As a robustness check against this pseudo-replication, each polygon's values were averaged first (one row per polygon, n=299 polygons), then the same paired Wilcoxon test was repeated on these per-polygon means.
+
+Metric                      Proposed win%    Tie%  F2C win%   Wilcoxon p  effect r
+Coverage (%)                      97.3%    2.7%      0.0%      <0.0001    -0.867
+Outside-swept (%)                 17.1%   82.9%      0.0%      <0.0001    -0.811
+Redundancy (%)                    10.0%   20.1%     69.9%      <0.0001    -0.703
+Excess-swept (%)                  88.0%    3.3%      8.7%      <0.0001    -0.776
+Coverage per unit length          74.6%   12.0%     13.4%      <0.0001    -0.647
+Runtime (s)                      100.0%    0.0%      0.0%      <0.0001    -0.867
+Path length                       92.0%    6.7%      1.3%      <0.0001    -0.853
+Total turning angle (deg)         96.7%    0.3%      3.0%      <0.0001    -0.842
+Turn count                        96.7%    0.0%      3.3%      <0.0001    -0.837
+Waypoint count                    99.7%    0.0%      0.3%      <0.0001    -0.867
+
+Agreement between this per-polygon check and the full row-level result in Section 2 indicates the row-level finding is not an artifact of some polygons contributing disproportionately many rows.
+
+----------------------------------------------------------------------------------------------------
+6. KEY FINDINGS SUMMARY
+----------------------------------------------------------------------------------------------------
+  - Runtime: Proposed is faster in 95.8% of configurations; mean speedup 1,846x, median speedup 221x (Wilcoxon p=<0.0001).
+  - Coverage: Proposed achieves higher coverage in 44.6% of configurations (mean 99.59% vs 97.58%, p=<0.0001).
+  - Redundancy: Proposed higher on average (22.60% vs 21.08%), Proposed better in 24.8% of configurations (p=<0.0001).
+  - Outside-swept area (covering outside the field boundary): Proposed better in 9.3% of configurations (mean 0.022% vs 0.223%).
+  - 367 of 15758 configurations (2.3%) caused the field to split into multiple pieces after the robot-width safety offset; these were excluded from the figures above for fairness and reported separately in Section 4.
+
+----------------------------------------------------------------------------------------------------
+7. CAVEATS / LIMITATIONS TO CARRY INTO THE MANUSCRIPT
+----------------------------------------------------------------------------------------------------
+  - This comparison only includes rows where BOTH methods produced a plan; it does not by itself quantify Proposed advantage on the configurations where only Proposed succeeded (F2C's failure rate is reported separately in Section 1 using the full attempt log).
+  - Wilcoxon tests here treat each row as one paired observation; Section 5's per-polygon aggregation is the safeguard against treating correlated same-polygon rows as fully independent, but a formal mixed-effects model (random intercept per polygon) would be a more rigorous treatment if a reviewer asks for one.
+  - Tie tolerances (listed at the top of this report) are a modeling choice; the figures and win-rate numbers will shift slightly with a different tolerance, though the sign and significance of the Wilcoxon tests (which do not use the tie tolerance) will not.
+
+====================================================================================================
+END OF REPORT
+====================================================================================================

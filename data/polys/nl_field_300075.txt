@@ -1,0 +1,8 @@
+# Source was WGS84 lon/lat degrees; converted to local metres (equirectangular about the field's own centroid)
+# Local bbox min before re-basing to (0, 0), in metres: (-143.107, -154.829)
+(199.3406, 155.6882)
+(270.6613, 234.7486)
+(247.1083, 327.0779)
+(103.2760, 169.5099)
+(0.0000, 57.3879)
+(59.8088, 0.0000)

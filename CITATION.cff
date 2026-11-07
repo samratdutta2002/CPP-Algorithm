@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software or the derived field polygons, please cite it as below."
+title: "A Fast and Robust Coverage Path Planner for Irregular Polygonal Fields with Rotation-Optimised Decomposition"
+type: software
+authors:
+  - family-names: Dutta
+    given-names: Samrat
+  - family-names: Roy
+    given-names: Soumen
+  - family-names: Pal
+    given-names: Rajat Kumar
+license: MIT
+repository-code: "https://github.com/OWNER/REPOSITORY"
+abstract: "Java implementation of a coverage path planner for irregular polygonal fields using rotation-optimised horizontal visibility subdivision, with the field polygons, comparison results and analysis scripts of the accompanying manuscript."
+keywords:
+  - coverage path planning
+  - agricultural robotics
+  - polygon decomposition
