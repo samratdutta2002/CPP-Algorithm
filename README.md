@@ -1,4 +1,4 @@
-# Rotation-optimised coverage path planner for irregular polygonal fields
+# A Fast and Robust Coverage Path Planner for Irregular Polygonal Fields with Rotation-Optimised Decomposition
 
 Code, data and result files for the manuscript
 
