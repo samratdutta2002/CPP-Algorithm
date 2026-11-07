@@ -10,7 +10,7 @@ authors:
   - family-names: Pal
     given-names: Rajat Kumar
 license: MIT
-repository-code: "https://github.com/OWNER/REPOSITORY"
+repository-code: "https://github.com/samratdutta2002/CPP-Algorithm"
 abstract: "Java implementation of a coverage path planner for irregular polygonal fields using rotation-optimised horizontal visibility subdivision, with the field polygons, comparison results and analysis scripts of the accompanying manuscript."
 keywords:
   - coverage path planning
