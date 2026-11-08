@@ -11,9 +11,11 @@ authors:
     given-names: Rajat Kumar
 license: MIT
 repository-code: "https://github.com/samratdutta2002/CPP-Algorithm"
+doi: 10.5281/zenodo.24041131
+url: "https://doi.org/10.5281/zenodo.24041131"
 abstract: "Java implementation of a coverage path planner for irregular polygonal fields using rotation-optimised horizontal visibility subdivision, with the field polygons, comparison results and analysis scripts of the accompanying manuscript."
 keywords:
   - coverage path planning
   - agricultural robotics
   - polygon decomposition
-doi: 10.5281/zenodo.24041132
+
