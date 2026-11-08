@@ -1,5 +1,7 @@
 # A Fast and Robust Coverage Path Planner for Irregular Polygonal Fields with Rotation-Optimised Decomposition
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24041131.svg)](https://doi.org/10.5281/zenodo.24041131)
+
 Code, data and result files for the manuscript
 
 > Samrat Dutta, Soumen Roy and Rajat Kumar Pal,
@@ -19,19 +21,20 @@ boundary (the "boundary pass"). It is compared with Fields2Cover on 299 fields o
 | `src/` | Java sources. Planner: `PipelineRunner`, `Polygon`, `PolygonVertex`, `PolygonGraph`, `PolygonSequencer`, `WayPointGenerator`, `DCELBuilder`, `Point`, `Edge`, `Graph`, `RunConfig`, `PipelineResult`, `MetricsCalculator`, plus helpers `EdgeGraph`, `MetaData`, `XlsxWriter`, `PolygonModifier`. Headless tools: `SingleTestProbe`, `MetricsProbe`, `AnalysisProbe`, `CompareRunner`, `BatchRunner`. Optional JavaFX/Swing GUI: `CppGuiApp`, `BatchModeWindow`, `PolygonVisualizer`, `SinglePolygonVisualizer`, `GraphGUI`, `HeatmapExporter` |
 | `data/polys/` | The 299 hole-free field polygons used in the paper, see `data/README.md` |
 | `benchmark/` | `f2c_runner.py`, the Python script that runs the Fields2Cover configurations |
-| `results/` | Raw outputs behind the tables and figures of the paper, see `results/README.md` |
+| `results/` | Raw outputs behind the tables and figures of the paper; see `results/README.md` |
 | `analysis/` | Python scripts that recompute the reported statistics from `results/` |
 | `scripts/` | `build.sh`, `smoke_test.sh`, `run_all.sh` |
 
 ## Requirements
-* JDK 21 (developed with Temurin 21 on macOS/arm64; also run on Linux/x86-64)
+* JDK 21 (developed with Temurin 21 on macOS/arm64; also runs on Linux/x86-64)
 * JTS Topology Suite `jts-core` 1.19.0 (downloaded by `scripts/build.sh`; not stored in the repository)
-* Python 3.10+ with the packages of `requirements.txt` for the analysis scripts
+* Python 3.10+ with the packages in `requirements.txt` for the analysis scripts
 * Only for the optional GUI: JavaFX 21 (`javafx.controls`, `javafx.swing`)
 * Only for regenerating the Fields2Cover results: Fields2Cover and its Python bindings (see `benchmark/f2c_runner.py`)
 
 ## Build and quick check
 ```
+git clone https://github.com/samratdutta2002/CPP-Algorithm.git && cd CPP-Algorithm
 bash scripts/build.sh        # compiles the headless tools into ./out
 bash scripts/smoke_test.sh   # re-runs three fields and compares with results/structure_full.csv (expects an exact match)
 ```
@@ -68,7 +71,7 @@ python analysis/analyze_cpp_benchmark.py compare_all.csv --f2c-summary results/s
 ```
 The stored outputs are `results/compare_all_second.csv` and `results/report_2.txt` (aligned layout) and
 `results/compare_all_first.csv` and `results/report_1.txt` (headland layout). `results/summary_all.csv` contains the
-raw Fields2Cover summary including its failed runs, from which the failure rates are computed.
+raw Fields2Cover summary, including its failed runs, from which the failure rates are computed.
 
 ## Reproducing the statistics of the paper from the stored results
 ```
@@ -81,9 +84,9 @@ python analysis/probe_results.py all    # tree check, region counts, greedy gap,
 * The outputs of `AnalysisProbe` are deterministic. Re-running three fields on Linux/x86-64 reproduced the stored
   macOS/arm64 results exactly (`scripts/smoke_test.sh`).
 * Planning times in the paper were measured in a warmed-up JVM processing a batch of polygons, whereas Fields2Cover
-  times include its Python bindings and OR-tools route optimisation; absolute times depend on the machine.
+  times include its Python bindings and OR-Tools route optimisation; absolute times depend on the machine.
 * The comparison harness (`CompareRunner`) starts the planner at the start point supplied with each comparison row (the
-  field centroid computed when the fields were converted, for the OR-tools configurations; the first Fields2Cover waypoint
+  field centroid computed when the fields were converted, for the OR-Tools configurations; the first Fields2Cover waypoint
   for the `snake` configurations), whereas `AnalysisProbe` and `SingleTestProbe` start at `Polygon.computeCentroid`
   (a vertex-based centroid). The start points differ, so paths from the probes differ slightly from the rows of
   `compare_all_*.csv` (mean difference about 0.1%; aggregate conclusions are unaffected).
@@ -99,9 +102,10 @@ python analysis/probe_results.py all    # tree check, region counts, greedy gap,
 
 ## Citation
 Please cite the manuscript above and, for the software and data, the archived release
-(Zenodo DOI to be added after the first release, see `CITATION.cff`). If you use the fields, please also cite
+(https://doi.org/10.5281/zenodo.24041131, see also `CITATION.cff`). If you use the fields, please also cite
 Fields2Benchmark:
 
 > G. Mier, A. M. Casado Faulí, J. Valente and S. de Bruin, "Fields2Benchmark: An Open-Source Benchmark for Coverage
 > Path Planning Methods in Agriculture," *Smart Agricultural Technology*, vol. 12, 101156, 2025,
 > doi:10.1016/j.atech.2025.101156.
+
