@@ -19,7 +19,8 @@ boundary (the "boundary pass"). It is compared with Fields2Cover on 299 fields o
 | Path | Content |
 |---|---|
 | `src/` | Java sources. Planner: `PipelineRunner`, `Polygon`, `PolygonVertex`, `PolygonGraph`, `PolygonSequencer`, `WayPointGenerator`, `DCELBuilder`, `Point`, `Edge`, `Graph`, `RunConfig`, `PipelineResult`, `MetricsCalculator`, plus helpers `EdgeGraph`, `MetaData`, `XlsxWriter`, `PolygonModifier`. Headless tools: `SingleTestProbe`, `MetricsProbe`, `AnalysisProbe`, `CompareRunner`, `BatchRunner`. Optional JavaFX/Swing GUI: `CppGuiApp`, `BatchModeWindow`, `PolygonVisualizer`, `SinglePolygonVisualizer`, `GraphGUI`, `HeatmapExporter` |
-| `data/polys/` | The 299 hole-free field polygons used in the paper, see `data/README.md` |
+| `data/` | `wkt_to_txt.py`, it filters and converts the Fields2Benchmark WKT boundaries to text files |
+| `data/polys/` | The 299 hole-free field polygons used in the paper; see `data/README.md` |
 | `benchmark/` | `f2c_runner.py`, the Python script that runs the Fields2Cover configurations |
 | `results/` | Raw outputs behind the tables and figures of the paper; see `results/README.md` |
 | `analysis/` | Python scripts that recompute the reported statistics from `results/` |
