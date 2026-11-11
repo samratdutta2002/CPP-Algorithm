@@ -6,8 +6,9 @@
 ## Provenance
 The fields are a subset of the **Fields2Benchmark** dataset (350 fields; Mier, Casado Faulí, Valente and de Bruin,
 *Smart Agricultural Technology* 12 (2025) 101156; dataset: https://zenodo.org/records/14524735), whose boundaries were
-extracted from EuroCrops. We kept the **299 fields without interior holes** (obstacles) and converted each Well-Known-Text
-boundary as follows:
+extracted from EuroCrops. The conversion and hole-free filtering were done with data/<wkt_to_txt.py>; run it on the 
+Fields2Benchmark WKT file to regenerate polys/. We kept the **299 fields without interior holes** (obstacles) and 
+converted each Well-Known-Text boundary as follows:
 
 1. The source coordinates are WGS84 longitude/latitude in degrees. They were converted to local metric coordinates with an
    equirectangular projection about the centroid of each field.
